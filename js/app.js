@@ -1,4 +1,8 @@
+
+
+
 function startGame() {
+        
     document.getElementById("score-container").innerHTML = "";
     const grid = document.getElementById("grid");
     grid.innerHTML = "" ; 
@@ -53,8 +57,36 @@ function startGame() {
      }
  
      bombNumberGenerator() 
+    
 
-     function boxToggle( cell) {
+     
+
+    function bombSettings() {
+        for (let i = 0; i < bombsArray.length; i++) {
+            let bombCell = cellsArray[bombsArray[i]];
+            if (bombCell) {
+                bombCell.classList.add("bomb");
+                bombCell.addEventListener("click", function() {
+                let isBombClicked = bombCell.classList.contains("clicked-bomb")
+                if (!isBombClicked) {
+                    bombCell.classList.toggle("clicked-bomb");
+                    clickedBombCounter++
+                    document.getElementById("score-container").innerHTML = `<p>HAI PERSO;</p> 
+                                                                            <p> PUNTEGGIO: ${score}</p> `
+                    let bombCellsArray = document.getElementsByClassName("bomb");
+                    for (let j = 0; j < bombCellsArray.length; j++) {
+                        bombCellsArray[j].classList.add("clicked-bomb")
+                    }
+                }        
+            });
+            }
+            
+        }   
+    }
+
+    bombSettings()
+    
+    function boxToggle( cell) {
         const isClicked = cell.classList.contains("clicked")
         const isBomb = cell.classList.contains("bomb")
         if (!isClicked && !isBomb && score < safeCells && clickedBombCounter == 0) {
@@ -69,27 +101,15 @@ function startGame() {
         } 
     }   
 
-    function bombSettings() {
-        for (let i = 0; i < bombsArray.length; i++) {
-            let bombCell = cellsArray[bombsArray[i]] 
-            bombCell.classList.add("bomb");
-            bombCell.addEventListener("click", function() {
-                let isBombClicked = bombCell.classList.contains("clicked-bomb")
-                if (!isBombClicked) {
-                    bombCell.classList.toggle("clicked-bomb");
-                    clickedBombCounter++
-                    document.getElementById("score-container").innerHTML = `<p>HAI PERSO;</p> 
-                                                                            <p> PUNTEGGIO: ${score}</p> `
-                    let bombCellsArray = document.getElementsByClassName("bomb");
-                    for (let j = 0; j < bombCellsArray.length; j++) {
-                        bombCellsArray[j].classList.add("clicked-bomb")
-                    }
-                }        
-            });
-        }   
+
     }
 
-    bombSettings()
-}
+
+
+
+
 
 document.getElementById("play").addEventListener("click", startGame)
+
+
+
